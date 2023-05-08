@@ -21,49 +21,42 @@ y
 
 Xx= 0:0.01:2.5;
 Yx = y(Xx);
+
 [Xe,Ye] = Euler(func, x0, y0, h,n)
 [Xem,Yem] = EulerMelhorado(func, x0, y0, h,n)
 [Xemod,Yemod] = EulerModificado(func, x0, y0, h,n)
 
+Xmatr = zeros(5,n+1); Ymatr = zeros(5,n+1);
+
+[Xmatr(1,:),Ymatr(1,:)] = Euler(func, x0, y0, h,n);
+[Xmatr(2,:),Ymatr(2,:)] = EulerMelhorado(func, x0, y0, h,n);
+[Xmatr(3,:),Ymatr(3,:)] = EulerModificado(func, x0, y0, h,n);
+
+Ymatr
 y(Xe)
 
 
 clf
 hold on
-
-
 plot (Xx, Yx, 'linewidth', 1.5)
 
 markersize = 50;
 lw = 1;
 
 cols = {'r', 'g', 'm', 'c', 'y'};
+marks = {'x', 'd', 'o', 's', 'y', 'v', '8'};
 
-for i=1:n+1
-	px = Xe(i);
-	py = Ye(i);
-	scatter(px, py, markersize, cols{1}, 'x');
-  if (i)<(n+1)
-    line([Xe(i) Xe(i+1)], [Ye(i) Ye(i+1)], 'LineStyle', '-', 'linewidth', lw, 'Color', cols{1});
-  end
-  %if i > 1
-  %  line([Xe(i) Xe(i)], [Ye(i) y(Xe(i))], 'LineStyle', '-.', 'linewidth', lw, 'Color', cols{1});
- % end
-end
-for i=1:n+1
-	px = Xem(i);
-	py = Yem(i);
-	scatter(px, py, markersize, cols{2}, 'd');
-  if (i)<(n+1)
-    line([Xem(i) Xem(i+1)], [Yem(i) Yem(i+1)], 'LineStyle', '-', 'linewidth', lw, 'Color', cols{2});
-  end
-end
-for i=1:n+1
-	px = Xemod(i);
-	py = Yemod(i);
-	scatter(px, py, markersize, cols{3}, 'o');
-  if (i)<(n+1)
-    line([Xemod(i) Xemod(i+1)], [Yemod(i) Yemod(i+1)], 'LineStyle', '-', 'linewidth', lw, 'Color', cols{3});
+for j=1:3
+  Xtemp = Xmatr(j,:);
+  Ytemp = Ymatr(j,:);
+
+  for i=1:n+1
+    px = Xtemp(i);
+    py = Ytemp(i);
+    scatter(px, py, markersize, cols{j}, marks{j});
+    if (i)<(n+1)
+      line([Xtemp(i) Xtemp(i+1)], [Ytemp(i) Ytemp(i+1)], 'LineStyle', '-', 'linewidth', lw, 'Color', cols{j});
+    end
   end
 end
 
