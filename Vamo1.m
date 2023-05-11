@@ -71,6 +71,7 @@ dormand.c = [0,1/5, 3/10, 4/5, 8/9, 1, 1];
 [Xesp,Yesp]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, false);
 
 % Armazenando os erros de cada metodo
+Yexato = y(Xmatr(1,:));
 Yerros = zeros(7,n+1);
 for j=1:7
   for i=1:length(Xmatr(1,:))
@@ -114,15 +115,17 @@ for i=1:columns(Xesp)
       line([Xesp(i) Xesp(i+1)], [Yesp(i) Yesp(i+1)], 'LineStyle', '-', 'linewidth', lw, 'Color', 'k');
     end
 end
+
+xlabel ("x");
+ylabel ("y");
 hold off;
 shg;
 
-epsfilename = 'Teste';
+epsfilename = 'Solucao EDO';
 fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
 print(epsfilename, '-depsc2');
 
 %Impressao das tabelas
-Yexato = y(Xmatr(1,:));
 fprintf("          x     |      Valor Exato |        Euler   |      Euler Mel. |      Euler Mod. | V d Houven/Wray |     Ralston     |   Dorm.-Pr45-Bu |      ODE45 fixo |      ODE45 adap\n");
 fprintf('--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n');
 for i=1:length(Xmatr(1,:))
@@ -135,5 +138,21 @@ for i=1:length(Xmatr(1,:))
   %Xmatr(1,i)
 	fprintf('     %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      ----\n', Xmatr(1,i), Yexato(i)-Yexato(i), Yerros(1,i),Yerros(2,i),Yerros(3,i),Yerros(4,i),Yerros(5,i), Yerros(6,i), Yerros(7,i) );
 end
+
+%Plot do grafico de erros em escala logaritmica
+clf
+hold on
+
+Yerros
+%semilogy(Xmatr(1,:), Yerros)
+semilogy(Xesp, abs(y(Xesp)-Yesp))
+xlabel ("x");
+ylabel ("ln(|Erro|)");
+hold off;
+shg;
+
+epsfilename = 'Erros Escala log';
+fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
+print(epsfilename, '-depsc2');
 
 
