@@ -66,9 +66,10 @@ dormand.b = [35/384,0,500/1113,125/192,-2187/6784,11/84,0];
 dormand.bstar = [5179/57600,0,7571/16695,393/640,-92097/339200,187/2100,1/40];
 dormand.c = [0,1/5, 3/10, 4/5, 8/9, 1, 1];
 [Xmatr(6,:),Ymatr(6,:),~] = RungeKutta(func, x0, y0, h, n, dormand, s );
-
 [Xmatr(7,:),Ymatr(7,:)]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, true);
 [Xesp,Yesp]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, false);
+%[Xesp,Yesp]=ode45(func, [x0, h*n], y0);
+
 
 % Armazenando os erros de cada metodo
 Yexato = y(Xmatr(1,:));
@@ -144,8 +145,8 @@ clf
 hold on
 
 Yerros
-%semilogy(Xmatr(1,:), Yerros)
-semilogy(Xesp, abs(y(Xesp)-Yesp))
+semilogy(Xmatr(1,:), Yerros)
+semilogy(Xesp,abs(y(Xesp)-Yesp))
 xlabel ("x");
 ylabel ("ln(|Erro|)");
 hold off;
@@ -154,5 +155,6 @@ shg;
 epsfilename = 'Erros Escala log';
 fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
 print(epsfilename, '-depsc2');
+
 
 
