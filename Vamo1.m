@@ -1,7 +1,7 @@
 pkg load symbolic;
 syms y(x)
-%path
-addpath("edo","-begin")
+%Caso eseteja rodando na pasta do script, ira adicionar o path da pasta edo, fornecida pelo professor
+addpath("edo","-end")
 
 
 func = @(x,y) (1-2*exp(x)*y)/exp(x);
@@ -70,8 +70,16 @@ dormand.c = [0,1/5, 3/10, 4/5, 8/9, 1, 1];
 [Xmatr(7,:),Ymatr(7,:)]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, true);
 [Xesp,Yesp]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, false);
 
+% Armazenando os erros de cada metodo
+Yerros = zeros(7,n+1);
+for j=1:7
+  for i=1:length(Xmatr(1,:))
+   Yerros(j,i)=abs(Yexato(1,i)-Ymatr(j,i));
+  end
+end
 
-%Printando e plotando td
+
+%Printando e plotando tudo
 clf
 hold on
 plot (Xx, Yx, 'linewidth', 2)
@@ -113,5 +121,19 @@ epsfilename = 'Teste';
 fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
 print(epsfilename, '-depsc2');
 
+%Impressao das tabelas
+Yexato = y(Xmatr(1,:));
+fprintf("          x     |      Valor Exato |        Euler   |      Euler Mel. |      Euler Mod. | V d Houven/Wray |     Ralston     |   Dorm.-Pr45-Bu |      ODE45 fixo |      ODE45 adap\n");
+fprintf('--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n');
+for i=1:length(Xmatr(1,:))
+  %Xmatr(1,i)
+	fprintf('     %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      ----\n', Xmatr(1,i), Yexato(i), Ymatr(1,i),Ymatr(2,i),Ymatr(3,i),Ymatr(4,i),Ymatr(5,i), Ymatr(6,i), Ymatr(7,i) );
+end
+
+fprintf('Erros:\n');
+for i=1:length(Xmatr(1,:))
+  %Xmatr(1,i)
+	fprintf('     %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      ----\n', Xmatr(1,i), Yexato(i)-Yexato(i), Yerros(1,i),Yerros(2,i),Yerros(3,i),Yerros(4,i),Yerros(5,i), Yerros(6,i), Yerros(7,i) );
+end
 
 
