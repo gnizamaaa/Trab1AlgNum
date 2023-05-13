@@ -1,31 +1,10 @@
 pkg load symbolic;
 %Caso eseteja rodando na pasta do script, ira adicionar o path da pasta edo, fornecida pelo professor
-addpath("edo","-end")
+addpath("edo")
 warning("off",  'Octave:negative-data-log-axis');
 
-clear
-  syms y(x)
-  func = @(x,y) (1-2*exp(x)*y)/exp(x);
-  x0 = 0; y0 = 1; h = 0.5; n = 5;
-  ode = exp(x)*diff(y, x) + 2*exp(x)*y == 1;
-  cond = y(x0)==y0;
-  
-resolva1(func, ode, cond, x0, y0,h,n)
 
-clear
- syms y(x)
-  x0 = pi; y0 = 1; h = 1; n = 5;
-  ode = diff(y, x) == (sin(x)/(x.^2))/x  - 3*y/x;
-  func = @(x, y) eval(ode);
-  cond = y(x0)==y0;
-  sol = dsolve(ode,cond)
-  
-resolva1(func, ode, cond, x0, y0,h,n)
-
-
-
-
-function null = resolva1(func,ode,cond,x0,y0,h,n)
+function null = resolva1(func,ode,cond,x0,y0,h,n,letra)
   sol = dsolve(ode,cond);
   y=matlabFunction(sol);
 
@@ -38,7 +17,7 @@ function null = resolva1(func,ode,cond,x0,y0,h,n)
   fprintf("\nSolucao numerica\n");
   y
 
-  Xx= 0:0.01:2.5;
+  Xx= x0:(h/10):(x0+h*n);
   Yx = y(Xx);
 
   Xmatr = zeros(7,n+1); Ymatr = zeros(7,n+1);
@@ -85,8 +64,8 @@ function null = resolva1(func,ode,cond,x0,y0,h,n)
   dormand.c = [0,1/5, 3/10, 4/5, 8/9, 1, 1];
   [Xmatr(6,:),Ymatr(6,:),~] = RungeKutta(func, x0, y0, h, n, dormand, s );
   [Xmatr(7,:),Ymatr(7,:)]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, true);
-  [Xesp,Yesp]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, false);
-  %[Xesp,Yesp]=ode45(func, [x0, h*n], y0);
+  %[Xesp,Yesp]=RungeKutta_Dormand_Prince_ode45(func, x0, y0, h, n, false);
+  [Xesp,Yesp]=ode45(func, [x0, (x0+h*n)], y0);
 
   % Armazenando os erros de cada metodo
   Yexato = y(Xmatr(1,:));
@@ -125,7 +104,7 @@ function null = resolva1(func,ode,cond,x0,y0,h,n)
   hold off;
   shg;
 
-  epsfilename = 'Solucao EDO';
+  epsfilename = strcat('Solucao EDO ', letra);
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
   print(epsfilename, '-depsc2');
 
@@ -138,7 +117,7 @@ function null = resolva1(func,ode,cond,x0,y0,h,n)
 
   fprintf('Erros:\n');
   for i=1:length(Xmatr(1,:))
-    fprintf('     %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      %10.6f |      ----\n', Xmatr(1,i), Yexato(i)-Yexato(i), Yerros(1,i),Yerros(2,i),Yerros(3,i),Yerros(4,i),Yerros(5,i), Yerros(6,i), Yerros(7,i) );
+    fprintf('   %10.6e |    %10.6e |    %10.6e |    %10.6e |    %10.6e |    %10.6e |    %10.6e |    %10.6e |    %10.6e |      ----\n', Xmatr(1,i), Yexato(i)-Yexato(i), Yerros(1,i),Yerros(2,i),Yerros(3,i),Yerros(4,i),Yerros(5,i), Yerros(6,i), Yerros(7,i) );
   end
 
   %Plot do grafico de erros em escala logaritmica
@@ -159,9 +138,54 @@ function null = resolva1(func,ode,cond,x0,y0,h,n)
   hold off;
   shg;
 
-  epsfilename = 'Erros Escala log';
+  epsfilename =  strcat('Erros Escala Log ', letra) ;
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
   print(epsfilename, '-depsc2');
 
 endfunction
+
+
+clear
+  syms y(x)
+  func = @(x,y) (1-2*exp(x)*y)/exp(x);
+  x0 = 0; y0 = 1; h = 0.5; n = 5;
+  ode = exp(x)*diff(y, x) + 2*exp(x)*y == 1;
+  cond = y(x0)==y0;
+ letra = "a";
+
+resolva1(func, ode, cond, x0, y0,h,n, letra)
+
+clear
+ syms y(x)
+  x0 = pi; y0 = 1; h = 1; n = 5;
+  ode = x*diff(y, x) + (3*y) == sin(x)/(x.^2);
+  func = @(x, y) ((sin(x)/(x^2))-3*y)/x;
+  cond = y(x0)==y0;
+  letra = "b";
+
+resolva1(func, ode, cond, x0, y0,h,n, letra)
+
+clear
+%addpath("edo")
+syms y(x)
+  x0 = pi/8; y0 = 1; h = pi/8; n = 5;
+  ode = diff(y, x)+ (tan(x)*y)== (cos(x)^2);
+  func = @(x, y) (cos(x)^2) - (tan(x)*y) ;
+  cond = y(x0)==y0;
+  letra = "c";
+
+resolva1(func, ode, cond, x0, y0,h,n, letra)
+
+clear
+ syms y(x)
+  x0 = 1; y0 = 1; h = 0.1; n = 5;
+  ode = x*diff(y, x) + (2*y) == 1 - (1/x);
+  func = @(x, y) (1 - (1/x) - (2*y))/x;
+  cond = y(x0)==y0;
+  letra = "d";
+
+resolva1(func, ode, cond, x0, y0,h,n, letra)
+
+
+
 
