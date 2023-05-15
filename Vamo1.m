@@ -1,7 +1,8 @@
-pkg load symbolic;
 %Caso eseteja rodando na pasta do script, ira adicionar o path da pasta edo, fornecida pelo professor
 addpath("edo")
 warning("off",  'Octave:negative-data-log-axis');
+pkg load symbolic;
+
 
 
 function null = resolva1(func,ode,cond,x0,y0,h,n,letra)
@@ -168,9 +169,9 @@ resolva1(func, ode, cond, x0, y0,h,n, letra)
 clear
 %addpath("edo")
 syms y(x)
-  x0 = pi/8; y0 = 1; h = pi/8; n = 5;
-  ode = diff(y, x)+ (tan(x)*y)== (cos(x)^2);
-  func = @(x, y) (cos(x)^2) - (tan(x)*y) ;
+  x0 = pi/8; y0 = 1; h = pi/16; n = 5;
+  ode = diff(y, x) + (tan(x)*y) == (cos(x)^2)
+  func = @(x, y) (cos(x)^2) - (tan(x)*y) 
   cond = y(x0)==y0;
   letra = "c";
 
