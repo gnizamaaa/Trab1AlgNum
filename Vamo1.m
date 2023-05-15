@@ -3,8 +3,6 @@ addpath("edo")
 warning("off",  'Octave:negative-data-log-axis');
 pkg load symbolic;
 
-
-
 function null = resolva1(func,ode,cond,x0,y0,h,n,letra)
   sol = dsolve(ode,cond);
   y=matlabFunction(sol);
