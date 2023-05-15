@@ -165,7 +165,6 @@ clear
 resolva1(func, ode, cond, x0, y0,h,n, letra)
 
 clear
-%addpath("edo")
 syms y(x)
   x0 = pi/8; y0 = 1; h = pi/16; n = 5;
   ode = diff(y, x) + (tan(x)*y) == (cos(x)^2)
