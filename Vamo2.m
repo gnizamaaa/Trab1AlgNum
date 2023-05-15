@@ -68,6 +68,8 @@ plot([iDouble,iDouble],[0,vMax], 'r--')
 plot(x,yTrans(x))
 xlabel ("t [min]");
 ylabel ("V(t) [L]");
+legend ( {"Vmax","V0", "Transbordagem do tanque" , "V(t)" },"location", "northeastoutside");
+title ("Evolucao temporal do volume do tanque");
 
 
 hold off;
@@ -90,6 +92,8 @@ plot([iDouble,iDouble],[0,vMax], 'r--')
 plot(x,yEsv(x))
 xlabel ("t [min]");
 ylabel ("V(t) [L]");
+legend ( {"Vmax","V0","Vazamento completo do tanque", "V(t)" },"location", "northeastoutside");
+title ("Evolucao temporal do volume do tanque");
 
 hold off;
 shg;
@@ -103,16 +107,18 @@ hold on
 
 iDouble = 500
 x = 0:0.1:iDouble;
-plot([0,iDouble],[vMax,vMax], 'r--', 'color','g')
-plot([0,iDouble],[v0,v0], 'r--', 'color','b')
+plot([0,iDouble],[vMax,vMax], '--')
+plot([0,iDouble],[v0,v0], '--', 'linewidth', 2)
 
 %Por algum motivo, quando tento plotar como os outros demora muito tempo
 %Imagino que seja porque yConst nao depende de t é apenas @()2000, nao @(t)2000
-plot([0,iDouble],[yConst(),yConst()], '-', 'color', 'k')
+plot([0,iDouble],[yConst(),yConst()], '-', 'linewidth', 1)
 
 ylim([0,vMax])
 xlabel ("t [min]");
 ylabel ("V(t) [L]");
+legend ( {"Vmax","V0", "V(t)" },"location", "northeastoutside");
+title ("Evolucao temporal do volume do tanque");
 
 hold off;
 shg;

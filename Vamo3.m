@@ -28,7 +28,7 @@ function null = resolva3(Qin,Qout,dQ, nome)
 
   clf
   hold on
-  Xx=0:0.1:400;
+  Xx=0:0.1:i;
   plot(Xx, cfunc(Xx))
   plot([0,i], [C0,C0],  '--')
   plot([0,i], [Cin,Cin],  '--')
@@ -62,7 +62,6 @@ function null = resolva3(Qin,Qout,dQ, nome)
   title ("Evolucao temporal de concentracao");
   xlabel("t [min]")
   ylabel("c(t) [kg/L]")
-  %ylim([0,vMax]);
   hold off;
   shg;
 
