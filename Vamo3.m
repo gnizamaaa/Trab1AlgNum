@@ -17,15 +17,21 @@ function null = resolva3(Qin,Qout,dQ, nome)
   % Encontrando C(t)
   syms c(t)
   t0 = 0; C0 = 0.05; Cin = 2; h = 0.5; n = 5;
-  ode = diff(c, t) == (Qin*(Cin - c))/v
+  ode = diff(c, t) == (Qin*(Cin - c))/v;
   y = sym ('2');
   cond = c(sym('0'))==C0;
-  c = dsolve(ode,cond);
+  printf('Solucao c(t) do PVI:\n')
+  c = dsolve(ode,cond)
   cfunc=matlabFunction(c);
 
   %Plot c(t)
-  i = double(solve(v == 0))
-
+  i=500;
+  if (dQ>0)
+    i = double(solve(v == vMax));
+  endif
+  if (dQ<0)
+    i = double(solve(v == 0));
+  endif
   clf
   hold on
   Xx=0:0.1:i;
@@ -45,8 +51,8 @@ function null = resolva3(Qin,Qout,dQ, nome)
   
   %Encontrando M(t)
   syms m(t)
+  printf('funcao do aditivo m(t):\n')
   m = c*v
-  
   mfunc=matlabFunction(m);
 
   %Plot M(t)
@@ -55,13 +61,19 @@ function null = resolva3(Qin,Qout,dQ, nome)
   plot(Xx, mfunc(Xx))
   plot([0,i], [v0,v0],  '--')
   temp = matlabFunction(v);
-  plot(Xx, temp(Xx))
+  if(temp=v0)
+      plot([0,i], [v0,v0])
+  else
+      plot(Xx, temp(Xx))
+  end
   plot([0,i], [vMax,vMax],  '--')
-  plot([i,i], [0,vMax],  '--')
+  if(dQ!=0)
+    plot([i,i], [0,vMax],  '--')
+  end
   legend ( {"m(t)","v0", "V(t)","Vmax" },"location", "northeastoutside");
-  title ("Evolucao temporal de concentracao");
+  title ("Evolucao temporal de material e volume do tanque");
   xlabel("t [min]")
-  ylabel("c(t) [kg/L]")
+  ylabel("m(t) [kg], V(t) [L]")
   hold off;
   shg;
 
@@ -70,11 +82,31 @@ function null = resolva3(Qin,Qout,dQ, nome)
   print(epsfilename, '-depsc2');
 end
 
-%De caso
+warning("off", "OctSymPy:sym:rationalapprox");
 
+%Primeiro caso: Esvaziamento
+clear
 Qin=45;
 Qout = 50;
 dQ = Qin - Qout;
-nome = 'Esvaziamento'
+nome = 'Esvaziamento';
+printf('Caso de esvaziamento:\n')
+resolva3(Qin,Qout,dQ, nome)
 
+%Terceiro caso: Transbordamento
+clear
+Qin=50;
+Qout = 45;
+dQ = Qin - Qout;
+nome = 'Transbordamento';
+printf('Caso de Transbordamento:\n')
+resolva3(Qin,Qout,dQ, nome)
+
+%Segundo caso: constante
+clear
+Qin=45;
+Qout = 45;
+dQ = Qin - Qout;
+nome = 'constante';
+printf('Caso constante:\n')
 resolva3(Qin,Qout,dQ, nome)
