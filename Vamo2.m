@@ -77,7 +77,7 @@ shg;
 
 epsfilename = 'Transbordamento';
 fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-print(epsfilename, '-depsc2');
+print(epsfilename, '-djpg');
 
 
 
@@ -100,7 +100,7 @@ shg;
 
 epsfilename = 'Esvaziamento';
 fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-print(epsfilename, '-depsc2');
+print(epsfilename, '-djpg');
 
 clf
 hold on
@@ -125,5 +125,5 @@ shg;
 
 epsfilename = 'Constante';
 fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-print(epsfilename, '-depsc2');
+print(epsfilename, '-djpg');
 

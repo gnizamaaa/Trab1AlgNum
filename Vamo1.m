@@ -105,7 +105,7 @@ function null = resolva1(func,ode,cond,x0,y0,h,n,letra)
 
   epsfilename = strcat('Solucao EDO ', letra);
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-depsc2');
+  print(epsfilename, '-djpg');
 
   %Impressao das tabelas
   fprintf("          x     |      Valor Exato |        Euler   |      Euler Mel. |      Euler Mod. | V d Houven/Wray |     Ralston     |   Dorm.-Pr45-Bu |      ODE45 fixo |      ODE45 adap\n");
@@ -139,7 +139,7 @@ function null = resolva1(func,ode,cond,x0,y0,h,n,letra)
 
   epsfilename =  strcat('Erros Escala Log ', letra) ;
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-depsc2');
+  print(epsfilename, '-djpg');
 
 endfunction
 

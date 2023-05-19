@@ -47,7 +47,7 @@ function null = resolva3(Qin,Qout,dQ, nome)
 
   epsfilename = strcat('Concentracao ',nome);
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-depsc2');
+  print(epsfilename, '-djpg');
   
   %Encontrando M(t)
   syms m(t)
@@ -61,7 +61,7 @@ function null = resolva3(Qin,Qout,dQ, nome)
   plot(Xx, mfunc(Xx))
   plot([0,i], [v0,v0],  '--')
   temp = matlabFunction(v);
-  if(temp=v0)
+  if(v==v0)
       plot([0,i], [v0,v0])
   else
       plot(Xx, temp(Xx))
@@ -79,7 +79,7 @@ function null = resolva3(Qin,Qout,dQ, nome)
 
   epsfilename = strcat('Material ',nome);
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-depsc2');
+  print(epsfilename, '-djpg');
 end
 
 warning("off", "OctSymPy:sym:rationalapprox");
