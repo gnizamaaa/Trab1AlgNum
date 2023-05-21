@@ -47,8 +47,8 @@ function null = resolva3(Qin,Qout,dQ, nome)
 
   epsfilename = strcat('Concentracao ',nome);
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-djpg');
-  
+  print(epsfilename, '-depsc2');
+
   %Encontrando M(t)
   syms m(t)
   printf('funcao do aditivo m(t):\n')
@@ -79,7 +79,7 @@ function null = resolva3(Qin,Qout,dQ, nome)
 
   epsfilename = strcat('Material ',nome);
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-djpg');
+  print(epsfilename, '-depsc2');
 end
 
 warning("off", "OctSymPy:sym:rationalapprox");

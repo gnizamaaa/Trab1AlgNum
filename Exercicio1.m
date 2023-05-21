@@ -105,7 +105,7 @@ function null = resolva1(func,ode,cond,x0,y0,h,n,letra)
 
   epsfilename = strcat('Solucao EDO ', letra);
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-djpg');
+  print(epsfilename, '-depsc2');
 
   %Impressao das tabelas
   fprintf("          x     |      Valor Exato |        Euler   |      Euler Mel. |      Euler Mod. | V d Houven/Wray |     Ralston     |   Dorm.-Pr45-Bu |      ODE45 fixo |      ODE45 adap\n");
@@ -139,7 +139,7 @@ function null = resolva1(func,ode,cond,x0,y0,h,n,letra)
 
   epsfilename =  strcat('Erros Escala Log ', letra) ;
   fprintf('Gerando grafico vetorial em arquivo EPS ''%s''...\n', epsfilename );
-  print(epsfilename, '-djpg');
+  print(epsfilename, '-depsc2');
 
 endfunction
 
@@ -168,7 +168,7 @@ clear
 syms y(x)
   x0 = pi/8; y0 = 1; h = pi/16; n = 5;
   ode = diff(y, x) + (tan(x)*y) == (cos(x)^2)
-  func = @(x, y) (cos(x)^2) - (tan(x)*y) 
+  func = @(x, y) (cos(x)^2) - (tan(x)*y)
   cond = y(x0)==y0;
   letra = "c";
 
